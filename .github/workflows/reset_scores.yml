@@ -1,0 +1,14 @@
+name: Weekly Leaderboard Reset
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Every Sunday at 12:00 AM
+jobs:
+  reset-db:
+    runs-all: ubuntu-latest
+    steps:
+      - name: Reset Supabase Table
+        run: |
+          curl -X DELETE "${{ secrets.SUPABASE_URL }}/rest/v1/leaderboard?score=gt.0" \
+          -H "apikey: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}"
+
